@@ -93,6 +93,14 @@ h1 {
 }
 
 #map {
-    height: 500px;
+    height: 60vh;
     width: 100%;
+}
+
+ons-button[modifier="ok"] {
+    background: green;
+}
+
+ons-button[modifier="cancel"] {
+    background: darkred;
 }

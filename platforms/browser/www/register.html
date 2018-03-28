@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <meta name="format-detection" content="telephone=no" />
+    <meta name="format-detection" />
     <meta name="msapplication-tap-highlight" content="no" />
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
 
@@ -18,26 +18,27 @@
     <div id="deviceready">
         <div class="event received">  
             <ons-page>
-            <div style="text-align: center; margin: 30px;">
-                <ons-row>
-                    <ons-col><label for="fname">First Name</label></ons-col>
-                    <ons-col><ons-input id="fname" modifier="underbar"></ons-input></ons-col>
-                </ons-row>
-                <ons-row>
-                    <ons-col><label for="lname">Last Name</label></ons-col>
-                    <ons-col><ons-input id="lname" modifier="underbar"></ons-input></ons-col>
-                </ons-row>
-                <ons-row>
-                    <ons-col><label for="mymob">Mobile Number</label></ons-col>
-                    <ons-col><ons-input id="mymob" modifier="underbar" placeholder="My Contact" float></ons-input></ons-col>
-                </ons-row>
-                <ons-row>
-                    <ons-col><label for="emermob">Mobile Number</label></ons-col>
-                    <ons-col><ons-input id="emermob" modifier="underbar" placeholder="Emergency" float></ons-input></ons-col>
-                </ons-row>
+            <div style="text-align: center;">
+                <h3>Registration</h3>
+                <p>
+                  <ons-input id="name" modifier="underbar" type="text" placeholder="Fullname" value="" float></ons-input>
+                </p>
+
+                <p>
+                  <ons-input id="email" modifier="underbar" type="email" placeholder="Email Address" value="" float></ons-input>
+                </p>
+                 <p>
+                  <ons-input id="password" modifier="underbar" type="password" placeholder="Password" value="" float></ons-input>
+                </p>
+                <p>
+                  <ons-input id="mobile" modifier="underbar" placeholder="Mobile Number" value="" float></ons-input>
+                </p>
+                 <p>
+                  <ons-input id="mobile" modifier="underbar" placeholder="Emergency Contact" value="" float></ons-input>
+                </p>
                
                 <p style="margin-top: 30px;">
-                    <ons-button>Register</ons-button>
+                    <ons-button modifier="ok" onclick="app.register()">Register</ons-button>
                 </p>
                 <div id="map"></div>
             </div>

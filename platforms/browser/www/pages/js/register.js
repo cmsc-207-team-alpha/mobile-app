@@ -45,5 +45,29 @@ var app = {
                 contentType: "application/json; charset=utf-8",
                 dataType: "json"
         });
+    },
+
+    register: function(){
+        $.ajax({
+          type: "POST",
+          url: "https://cmsc-207-team-alpha.000webhostapp.com/api/driver/register.php",
+          data: JSON.stringify({
+            firstname: "mobile test",
+            lastname: "mobile test",
+            email: "mobile test",
+            password: "mobile test",
+            address: "mobile test",
+            mobile: "mobile test",
+            photo: "mobile test",
+          }),
+          success: function (result) {
+            console.log('Success');
+          },
+          error: function(error){
+            console.log(error.responseText);
+          },
+          contentType: "application/json; charset=utf-8",
+          dataType: "json"
+        });
     }
 };
