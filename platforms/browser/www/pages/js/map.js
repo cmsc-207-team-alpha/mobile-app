@@ -1,25 +1,38 @@
-var mapDiv, infoWindow;
+var mapDiv, infoWindow,directionsDisplay, directionService, markers;
 
 var map = {
+    sourcelat: 0,
+    sourcelong: 0,
+    destinationlat: 0,
+    destinationlong: 0,
+
+    distance: 0,
+    time: 0,
+
     initMap: function () {
         mapDiv = new google.maps.Map(document.getElementById('map'), {
             center: { lat: 14.562239, lng: 121.03645 },
             zoom: 15
         });
+        directionsDisplay = new google.maps.DirectionsRenderer({draggeble: true});   
         infoWindow = new google.maps.InfoWindow;
-        // Try HTML5 geolocation.
+     
         if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function (position) {
+            navigator.geolocation.getCurrentPosition(
+                function (position) {
                 var pos = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
 
-                infoWindow.setPosition(pos);
-                infoWindow.setContent('Location found.' + ' ' + position.coords.latitude + ' ' + position.coords.longitude);
-                infoWindow.open(mapDiv);
+                var marker = new google.maps.Marker({
+                  position: pos,
+                  map: mapDiv,
+                  title: 'Hello World!'
+                });
+
                 mapDiv.setCenter(pos);
-                watchPicturePosition();
+                mapDiv.setZoom(15);
             }, function () {
                 map.handleLocationError(true, infoWindow, mapDiv.getCenter());
             });
@@ -27,6 +40,13 @@ var map = {
             // Browser doesn't support Geolocation
             map.handleLocationError(false, infoWindow, mapDiv.getCenter());
         }
+
+        directionService = new google.maps.DirectionsService();
+        google.maps.event.addDomListener(window, 'load', function() {
+            new google.maps.places.SearchBox(document.getElementById('pickupId'));
+            new google.maps.places.SearchBox(document.getElementById('destinationId'));
+            directionsDisplay = new google.maps.DirectionsRenderer({draggeble: true}); 
+        });
     },
 
     getLocation: function () {
@@ -38,14 +58,14 @@ var map = {
                     lng: position.coords.longitude
                 };
 
-                infoWindow.setPosition(pos);
-                infoWindow.setContent('Location found.' + ' ' + position.coords.latitude + ' ' + position.coords.longitude);
-                infoWindow.open(mapDiv);
-                mapDiv.setCenter(pos);
-                watchPicturePosition();
+                var marker = new google.maps.Marker({
+                  position: pos,
+                  map: mapDiv,
+                  title: 'Hello World!'
+                });
 
-                console.log(pos);
-                return pos;
+                mapDiv.setCenter(pos);
+                mapDiv.setZoom(15);
             }, function () {
                 map.handleLocationError(true, infoWindow, mapDiv.getCenter());
                 return position;
@@ -56,6 +76,66 @@ var map = {
         }
     },
 
+    searchRoute: function (source, destination) {
+        var request;
+        var service;
+        var distance;
+        var duration;
+        var dvDistance;
+
+        this.geocodeDestinationAddress(destination);
+        this.geocodeOriginAddress(source);
+
+        console.log("source:" + source);
+        console.log("destination:" + destination);
+
+        directionsDisplay.setMap(mapDiv);
+
+        request = {
+            origin: source,
+            destination: destination,
+            travelMode: google.maps.TravelMode.DRIVING
+        };
+                
+        directionService.route(request, function (response, status) {
+            if(status == google.maps.DirectionsStatus.OK){
+                directionsDisplay.setDirections(response);                  //Display routes on map
+            }
+        });
+
+        // CALCULATE DISTANCE AND DURATION (TRAVEL TIME)
+        // Calls the DistanceMatrixService method
+        service = new google.maps.DistanceMatrixService();
+        
+        service.getDistanceMatrix(
+        { 
+            //assumptions in Distance and Duration calculations
+            origins: [source],
+            destinations: [destination],
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC,
+            avoidHighways: false,
+            avoidTolls: false
+        }, function (response, status) {
+            console.log(response);
+            if(status == google.maps.DistanceMatrixStatus.OK && response.rows[0].elements[0].status != "ZERO_RESULTS"){
+                distance = response.rows[0].elements[0].distance.value;  //****This is the calculated Distance
+                duration = response.rows[0].elements[0].duration.value;  //****This is the calculated Duration
+                
+                map.distance = distance/1000;
+                map.time = duration/60;
+                
+                console.log("DIS");
+                console.log(map.distance);
+                console.log(map.time);
+               
+
+            } else {
+                alert("Unable to calculate route");
+            }
+        });
+    },
+
     handleLocationError: function (browserHasGeolocation, infoWindow, pos) {
         infoWindow.setPosition(pos);
         infoWindow.setContent(browserHasGeolocation ?
@@ -64,10 +144,43 @@ var map = {
         infoWindow.open(mapDiv);
     },
 
+    geocodeOriginAddress: function(searchValue) {
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({'address': searchValue}, function(results, status) {
+          if (status === 'OK') {
+            map.sourcelat = results[0].geometry.location.lat();
+            map.sourcelong = results[0].geometry.location.lng();
+
+            console.log(map.destinationlat);  
+            console.log(map.destinationlong);  
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+    },
+
+    geocodeDestinationAddress: function(searchValue) {
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({'address': searchValue}, function(results, status) {
+          if (status === 'OK') {
+            map.destinationlat = results[0].geometry.location.lat();
+            map.destinationlong = results[0].geometry.location.lng();
+
+            console.log(map.destinationlat);  
+            console.log(map.destinationlong);   
+          } else {
+            alert('Geocode was not successful for the following reason: ' + status);
+          }
+        });
+    },
+
     plotOrigin: function(searchValue){
         //PLOT ORIGIN
         //RETURN LAT, LON
         console.log(searchValue);
+
         return {lat: 30.58899, lon: 31.975238};
     },
 
@@ -97,9 +210,8 @@ function onSuccess(position) {
         lng: position.coords.longitude
     };
 
-    infoWindow.setPosition(pos);
-    infoWindow.setContent('Location found.' + ' ' + position.coords.latitude + ' ' + position.coords.longitude);
-    infoWindow.open(mapDiv);
+    //infoWindow.setPosition(pos);
+    //infoWindow.open(mapDiv);
     mapDiv.setCenter(pos);
 }
 

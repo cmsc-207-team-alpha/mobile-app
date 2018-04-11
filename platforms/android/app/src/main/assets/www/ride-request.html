@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+
+    <link rel="stylesheet" type="text/css" href="pages/assets/css/index.css" />
+    <link rel="stylesheet" href="pages/assets/lib/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="pages/assets/lib/onsenui/css/onsen-css-components.min.css">   
+    <link rel="stylesheet" href="pages/assets/css/reset.css">
+    <link rel="stylesheet" href="pages/assets/css/style.css">
+
+    <title>Team ALPHA</title>
+</head>
+
+<body>
+    <div id="deviceready">
+        <div>  
+            <ons-page>
+            <div style="text-align: center;">
+                <h3><strong>Book A Ride</strong></h3>
+                <form>
+                <p>
+                  <input id="pickupId" class="input-txt" type="text" placeholder="Pick up Location" onchange="riderrequest.originChange()" required>
+                </p>
+                <p>
+                  <input id="destinationId" class="input-txt" type="text" placeholder="Destination" onchange="riderrequest.destinationChange()" required>
+                </p>             
+                <p style="margin-top: 5px;">    
+                    <ons-radio name="group" onclick="riderrequest.vehicleChange(this);" value="Sedan"></ons-radio>Sedan
+                    <ons-radio name="group" onclick="riderrequest.vehicleChange(this);" value="Compact"></ons-radio>Compact
+                    <ons-radio name="group" onclick="riderrequest.vehicleChange(this);" value="Van"></ons-radio>VAN   
+                    <ons-radio name="group" onclick="riderrequest.vehicleChange(this);" value="Suv"></ons-radio>SUV      
+                    <ons-radio name="group" onclick="riderrequest.vehicleChange(this);" value="Limousine"></ons-radio>Limousine
+                </p>
+                <p>
+                 <h4>Cost: P<label id="costId"></label></h4>
+                </p>
+               
+                <p>
+                <input type="button" id="accept" class="btn btn--right" onclick="riderrequest.accept()" value="Book">
+                </p>
+                <p>
+                <input type="button" id="cancel" class="btn btn--right" onclick="riderrequest.cancel()" value="Clear"> 
+                </p>
+                <p>               
+                <input type="button" id="accepted" class="btn btn--right" onclick="onesignal.passengerRideAccepted()" value="Temp: Driver Accept">
+                </p>
+                </form>
+                <div id="map"></div>
+            </div>
+            </ons-page>
+        </div>
+    </div>
+    
+    <script src="pages/assets/lib/onsenui/js/onsenui.min.js"></script>    
+    <script type="text/javascript" src="cordova.js"></script>
+    <script src="pages/assets/lib/jquery/js/jquery.min.js"></script>
+
+    <script type="text/javascript" src="pages/js/config.js"></script>
+    <script type="text/javascript" src="pages/js/map.js"></script>
+    <script type="text/javascript" src="pages/js/onesignal.js"></script>
+    <script type="text/javascript" src="pages/js/ride-request.js"></script>
+
+    <script async defer content="script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOnTzBRmXJM7XzmWAbE8jMWwRzAu9tEC8&sensor=false&libraries=places&callback=map.initMap">
+    </script>
+
+    <script type="text/javascript">
+        riderrequest.initialize();
+    </script>
+</body>
+</html>
