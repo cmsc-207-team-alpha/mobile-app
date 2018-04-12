@@ -1,27 +1,98 @@
 var starttrip = {
-    initialize: function(){
-        console.log("Get data from API");  
+    tripid: 0,
 
-        var driver = document.getElementById("driverId");
-        var vehicle = document.getElementById("vehicleId");
-        var plate = document.getElementById("plateId");
-        var origin = document.getElementById("originId");
-        var dest = document.getElementById("destId");
-        var cost = document.getElementById("costId");   
-
-        driver.innerHTML = "Test";
-        vehicle.innerHTML = "Test";
-        plate.innerHTML = "Test";
-        origin.innerHTML = "Test";
-        dest.innerHTML = "Test";
-        cost.innerHTML = "Test";
+    initialize: function () {
+        starttrip.tripid = decodeURIComponent(window.location.search.match(/(\?|&)id\=([^&]*)/)[2]);
+        starttrip.bindEvents();
     },
 
-    panicButton: function(){
-        console.log("Panic button");  
+    bindEvents: function () {
+        document.addEventListener('deviceready', this.onDeviceReady, false);
     },
 
-    endTrip: function(){
-        window.location.href = "end-trip.html";  
+    onDeviceReady: function () {
+        starttrip.getTrip(starttrip.tripid);
+    },
+
+    getTrip: function (id) {
+        $.ajax({
+            type: "GET",
+            url: config.apiUrl + "trip/get.php",
+            data: {
+                id: id
+            },
+            success: function (result) {
+                var vehicleid = parseInt(result['vehicleid']);
+
+                var origin = document.getElementById("originId");
+                var dest = document.getElementById("destId");
+                var cost = document.getElementById("costId");
+
+                origin.innerHTML = result['source'];
+                dest.innerHTML = result['destination'];
+                cost.innerHTML = result['amount'];
+
+                starttrip.getVehicle(vehicleid);
+            },
+            error: function (error) {
+                console.log(error);
+                ons.notification.alert("Encountered error!");
+            },
+            contentType: "text/plain",
+            dataType: "json"
+        });
+    },
+
+    getVehicle: function (id) {
+        $.ajax({
+            type: "GET",
+            url: config.apiUrl + "vehicle/get.php",
+            data: {
+                id: id
+            },
+            success: function (result) {
+                var driverid = parseInt(result['driverid']);
+
+                var vehicle = document.getElementById("vehicleId");
+                var plate = document.getElementById("plateId");
+
+                vehicle.innerHTML = result['make'] + ' ' + result['model'] + ' (' + result['color'] + ')';
+                plate.innerHTML = result['plateno'];
+
+                starttrip.getDriver(driverid);
+            },
+            error: function (error) {
+                ons.notification.alert("Encountered error!");
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+    },
+
+    getDriver: function (id) {
+        $.ajax({
+            type: "GET",
+            url: config.apiUrl + "driver/get.php",
+            data: {
+                id: id
+            },
+            success: function (result) {
+                var driver = document.getElementById("driverId");
+                driver.innerHTML = result['firstname'] + ' ' + result['lastname'];
+            },
+            error: function (error) {
+                ons.notification.alert("Encountered error!");
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
+    },
+
+    panicButton: function () {
+        console.log("Panic button");
+    },
+
+    endTrip: function () {
+        window.location.href = "end-trip.html";
     }
 };
