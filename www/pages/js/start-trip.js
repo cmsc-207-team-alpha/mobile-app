@@ -36,7 +36,6 @@ var starttrip = {
             },
             error: function (error) {
                 console.log(error);
-                ons.notification.alert("Encountered error!");
             },
             contentType: "text/plain",
             dataType: "json"
@@ -62,7 +61,7 @@ var starttrip = {
                 starttrip.getDriver(driverid);
             },
             error: function (error) {
-                ons.notification.alert("Encountered error!");
+                console.log(error);
             },
             contentType: "application/json; charset=utf-8",
             dataType: "json"
@@ -81,7 +80,7 @@ var starttrip = {
                 driver.innerHTML = result['firstname'] + ' ' + result['lastname'];
             },
             error: function (error) {
-                ons.notification.alert("Encountered error!");
+                console.log(error);
             },
             contentType: "application/json; charset=utf-8",
             dataType: "json"
@@ -89,7 +88,23 @@ var starttrip = {
     },
 
     panicButton: function () {
-        console.log("Panic button");
+        $.ajax({
+            type: "POST",
+            url: config.apiUrl + "trip/panic.php",
+            data: JSON.stringify({
+                id: starttrip.tripid
+            }),
+            success: function (result) {
+                ons.notification.alert(result['message'], {
+                    title: "Panic Button"
+                });
+            },
+            error: function (error) {
+                console.log(error);
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        });
     },
 
     endTrip: function () {
