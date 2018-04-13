@@ -3,6 +3,7 @@ var pendingride = {
     vehicleid: 1,
 
     initialize: function() {
+        pendingride.tripid = decodeURIComponent(window.location.search.match(/(\?|&)id\=([^&]*)/)[2]);
         pendingride.bindEvents();
     },
     bindEvents: function() {
@@ -50,7 +51,7 @@ var pendingride = {
 
 
     startTrip: function(value){
-    	window.location.href = "start-trip.html";    	
+    	window.location.href = "start-trip.html?id=" + pendingride.tripid;    	
     },
 
     updateDetails: function(value){

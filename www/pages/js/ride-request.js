@@ -99,7 +99,7 @@ var riderrequest = {
             }),
             success: function (result) {
                 ons.notification.alert({
-                message: result["message"],
+                message: result["message"] + "<br />Trip ID:" + result["id"] ,
                 callback: function(answer) {                  
                     var accept = document.getElementById("accept");
                     accept.style.visibility = 'collapse';
