@@ -11,15 +11,24 @@
     <link rel="stylesheet" href="pages/assets/lib/onsenui/css/onsenui.css">
     <link rel="stylesheet" href="pages/assets/lib/onsenui/css/onsen-css-components.min.css">   
 
+    <link rel="stylesheet" href="pages/assets/css/reset.css">
+    <link rel="stylesheet" href="pages/assets/css/style.css">
     <title>Team ALPHA</title>
 </head>
 
 <body>
-    <div id="deviceready">
-        <div>  
-            <ons-page>
-            <div style="text-align: left; margin: 30px;">
-                <h3>Trip Ended</h3>
+  <ons-page>
+        <ons-card>
+            <div class="login-heading" align="center">
+                <div class="thicker">Trip Ended</div>
+                 <hr style="visibility: hidden;" align="center">
+
+                   <button class="btn4 btn--right" onclick="endtrip.arrived()">I arrived at Destination</button>
+            </div>
+        </ons-card>
+          <div id="map"></div>
+    </ons-page>
+               <!--  <h3>Trip Ended</h3>
 
                 Driver:<label id="driverId"></label>
                 <br/>
@@ -37,7 +46,7 @@
             </ons-page>
         </div>
     </div>
-    
+     -->
     <script src="pages/assets/lib/onsenui/js/onsenui.min.js"></script>    
     <script type="text/javascript" src="cordova.js"></script>
     <script src="pages/assets/lib/jquery/js/jquery.min.js"></script>

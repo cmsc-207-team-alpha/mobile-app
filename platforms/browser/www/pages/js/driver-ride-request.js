@@ -35,14 +35,11 @@ var driverride = {
         driverride.dest.innerHTML = "";
         driverride.cost.innerHTML = "";
 
-        var alert = document.getElementById("alert");
-        alert.style.visibility = 'visible';
-
         var start = document.getElementById("start");
-        start.style.visibility = 'hidden';
+        start.style.visibility = 'collapse';
 
         var end = document.getElementById("end");
-        end.style.visibility = 'hidden';
+        end.style.visibility = 'collapse';
     },
 
     showDriverDetails: function(){
@@ -64,14 +61,11 @@ var driverride = {
                 onesignal.driverAcceptTrip(driverride.tripid);
                 driverride.getTrip(2);
 
-                var alert = document.getElementById("alert");
-                alert.style.visibility = 'hidden';
-
                 var start = document.getElementById("start");
                 start.style.visibility = 'visible';
 
                 var end = document.getElementById("end");
-                end.style.visibility = 'hidden';
+                end.style.visibility = 'collapse';
             },
             error: function(error){
                 ons.notification.alert("Encountered error!");
@@ -110,6 +104,7 @@ var driverride = {
                 if(result.length > 0)
                 {   
                     driverride.vehicleid = result[0]["id"];
+                    map.vehicleid = driverride.vehicleid;
                     driverride.plateNo = result[0]["plateno"];
                     driverride.carDetails =result[0]["make"] + " : " + result[0]["model"];
                     driverride.updateVehicleStatus();
@@ -228,16 +223,13 @@ var driverride = {
             id: driverride.tripid
         }),
         success: function (result) {
-            ons.notification.alert(result["message"]);
+            //ons.notification.alert(result["message"]);
             onesignal.driverStartTrip(driverride.tripid);
 
             driverride.header.innerHTML = "Trip Started";
 
-            var alert = document.getElementById("alert");
-            alert.style.visibility = 'hidden';
-
             var start = document.getElementById("start");
-            start.style.visibility = 'hidden';
+            start.style.visibility = 'collapse';
 
             var end = document.getElementById("end");
             end.style.visibility = 'visible';
@@ -258,7 +250,7 @@ var driverride = {
             id: driverride.tripid
         }),
         success: function (result) {
-            ons.notification.alert(result["message"]);
+            //ons.notification.alert(result["message"]);
             onesignal.driverEndTrip(driverride.tripid);
 
             driverride.noRequest();

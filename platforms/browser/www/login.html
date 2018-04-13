@@ -21,28 +21,25 @@
             <ons-page>
             <div style="text-align: center;">
     
-    <h1 class="login-heading">
-    <hr color="green" size="3" width="70%" align="center">
-    <hr color="green" size="3" width="80%" align="center">
-    <hr color="green" size="3" width="90%" align="center">
-    <strong>Welcome</strong> to Team Alpha!
-    <hr color="green" size="3" width="90%" align="center">
-    <hr color="green" size="3" width="80%" align="center">
-    <hr color="green" size="3" width="70%" align="center">
+   <img src="pages/assets/img/teamalpha.png" alt="Team Alpha" style="width: 70%;">
     
     </h1>
       
       <form>
+        <hr color="black" size="5" width="80%" align="center">
         <input type="email" id="email" name="user" placeholder="Email Address" required="required" class="input-txt1" />
-          <input type="password" id="password" name="password" placeholder="Password" required="required" class="input-txt1" />
+        <input type="password" id="password" name="password" placeholder="Password" required="required" class="input-txt1" />
+        <hr color="black" size="5" width="80%" align="center">
           <div class="login-footer">
-           <button type="button" class="btn2 btn--right" onclick="login.login()">Sign in  </button>
-            <button type="button" class="btn3 btn--right" onclick="location.href = 'register.html';">Register</button>
-            <hr color="green" size="2" width="80%" align="center">
-            <button type="button" class="btn4 btn--right"  onclick="login.loginAsDriver()">Sign As Driver</button>  
+             <hr style="visibility: hidden;" align="center">
+            <button type="button" class="btn4 btn--right" onclick="login.login()">Sign In</button>
+            <hr style="visibility: hidden;" align="center">
+            <button type="button" class="btn4 btn--right"  onclick="login.loginAsDriver()">Sign In As Driver</button>  
+            <hr style="visibility: hidden;" align="center">
+            <button type="button" class="btn4 btn--right" onclick="location.href = 'register.html';">Register</button>
           </div>
       </form>
-       <img src="pages/assets/img/teamalpha.png" alt="Team Alpha" style="width: 100%;">
+     
             </div>
             </ons-page>
         </div>

@@ -11,10 +11,10 @@ var riderrequest = {
 
     initialize: function() {
         var cancel = document.getElementById("cancel");
-        cancel.style.visibility = 'hidden';
+        cancel.style.visibility = 'collapse';
 
         var accepted = document.getElementById("accepted");
-        accepted.style.visibility = 'hidden';
+        accepted.style.visibility = 'collapse';
 
         riderrequest.costElement.innerHTML = "0.00";  
         riderrequest.cancel.disabled = false;  
@@ -99,13 +99,13 @@ var riderrequest = {
             }),
             success: function (result) {
                 ons.notification.alert({
-                message: result["message"] + "<br />Trip ID:" + result["id"] ,
+                message: result["message"],
                 callback: function(answer) {                  
                     var accept = document.getElementById("accept");
-                    accept.style.visibility = 'hidden';
+                    accept.style.visibility = 'collapse';
 
                     var cancel = document.getElementById("cancel");
-                    cancel.style.visibility = 'hidden';
+                    cancel.style.visibility = 'collapse';
 
                     var accepted = document.getElementById("accepted");
                     accepted.style.visibility = 'visible';

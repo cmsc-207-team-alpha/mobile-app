@@ -5,16 +5,17 @@ var onesignal = {
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
-    onDeviceReady: function() {        
-        var notificationOpenedCallback = function(jsonData) {
-		    console.log('notificationOpenedCallback: ' + JSON.stringify(jsonData));
-		;
+    onDeviceReady: function() {
+        var notificationReceiveCallback = function(jsonData) {  
+            if(jsonData["payload"]["title"] === "Trip assigned!"){
+                onesignal.driverTripAlert(jsonData["payload"]["additionalData"]["tripid"]);
+            }
+        };
 
 	  	window.plugins.OneSignal
 		    .startInit("d2097cc3-fb04-4981-806b-19c87aabc868")
-		    .handleNotificationOpened(notificationOpenedCallback)
-		    .endInit();
-	    }
+            .handleNotificationReceived(notificationReceiveCallback)
+            .endInit();    
     },
 
 
@@ -39,11 +40,9 @@ var onesignal = {
 
 
     //EVENTS
-    driverTripAlert: function() {
-    	//PASS TRIP ID
-    	var id = 39;
-    	driverride.driverTripAlert(id);
-    	console.log("OS driverTripAlert");
+    driverTripAlert: function(id) {
+        driverride.tripid = id;
+        driverride.getTrip(1); 
     },
 
     passengerRideAccepted: function() {

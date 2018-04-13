@@ -1,4 +1,4 @@
-var mapDiv, infoWindow,directionsDisplay, directionService, markers;
+var mapDiv, infoWindow,directionsDisplay, directionService, marker;
 
 var map = {
     sourcelat: 0,
@@ -8,6 +8,7 @@ var map = {
 
     distance: 0,
     time: 0,
+    vehicleid: 0,
 
     initMap: function () {
         mapDiv = new google.maps.Map(document.getElementById('map'), {
@@ -25,7 +26,7 @@ var map = {
                     lng: position.coords.longitude
                 };
 
-                var marker = new google.maps.Marker({
+                marker = new google.maps.Marker({
                   position: pos,
                   map: mapDiv,
                   title: 'Hello World!'
@@ -33,6 +34,8 @@ var map = {
 
                 mapDiv.setCenter(pos);
                 mapDiv.setZoom(15);
+
+                watchPicturePosition();
             }, function () {
                 map.handleLocationError(true, infoWindow, mapDiv.getCenter());
             });
@@ -58,7 +61,7 @@ var map = {
                     lng: position.coords.longitude
                 };
 
-                var marker = new google.maps.Marker({
+                marker = new google.maps.Marker({
                   position: pos,
                   map: mapDiv,
                   title: 'Hello World!'
@@ -210,9 +213,29 @@ function onSuccess(position) {
         lng: position.coords.longitude
     };
 
-    //infoWindow.setPosition(pos);
-    //infoWindow.open(mapDiv);
+    marker.setPosition(pos);
     mapDiv.setCenter(pos);
+
+    if(map.vehicleid !== 0){
+        $.ajax({
+            type: "POST",
+            url: config.apiUrl + "vehicle/setlocation.php",
+            data: JSON.stringify({
+                id: map.vehicleid,
+                locationlat: pos.lat,
+                locationlong: pos.lng
+            }),
+            success: function (result) {
+                console.log("success");
+            },
+            error: function(error){         
+                console.log("error");
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+        }); 
+    }
+    console.log("Location update");
 }
 
 // onError Callback receives a PositionError object
