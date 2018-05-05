@@ -1,71 +1,92 @@
 var onesignal = {
-    initialize: function() {
+    initialize: function () {
         this.bindEvents();
     },
-    bindEvents: function() {
+    bindEvents: function () {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
-    onDeviceReady: function() {
-        var notificationReceiveCallback = function(jsonData) {  
-            if(jsonData["payload"]["title"] === "Trip assigned!"){
+    onDeviceReady: function () {
+        var notificationReceiveCallback = function (jsonData) {
+            if (jsonData["payload"]["title"] === "Trip assigned!") {
                 onesignal.driverTripAlert(jsonData["payload"]["additionalData"]["tripid"]);
             }
         };
 
-	  	window.plugins.OneSignal
-		    .startInit("d2097cc3-fb04-4981-806b-19c87aabc868")
+        window.plugins.OneSignal
+            .startInit("d2097cc3-fb04-4981-806b-19c87aabc868")
             .handleNotificationReceived(notificationReceiveCallback)
-            .endInit();    
+            .endInit();
     },
 
+    setPlayerIdAndRedirect: function (id, role, page) {
+        window.plugins.OneSignal.getIds(function (user) {
+            $.ajax({
+                type: "POST",
+                url: config.apiUrl + role + "/setplayerid.php",
+                data: JSON.stringify({
+                    id: id,
+                    playerid: user.userId
+                }),
+                success: function (result) {
+                    console.log("Setting of player id successfully completed.");
+                    window.plugins.OneSignal.sendTag("role", role);
+                    console.log("Role tag sent to OneSignal.");
+                    window.location.href = page;
+                },
+                error: function (error) {
+                    ons.notification.alert("Setting of player id failed!");
+                    console.log(error.responseText);
+                },
+                contentType: "application/json; charset=utf-8",
+                dataType: "json"
+            });
+        });
+    },
 
     //FUNCTIONS
-    driverAcceptTrip: function(id) {
-    	//PUSH MESSAGE TO PASSENGER INCLUDE TRIP ID
+    driverAcceptTrip: function (id) {
+        //PUSH MESSAGE TO PASSENGER INCLUDE TRIP ID
 
-    	console.log("OS driverAcceptTrip");
+        console.log("OS driverAcceptTrip");
     },
 
-    driverStartTrip: function() {
-    	//PUSH MESSAGE TO PASSENGER INCLUDE TRIP ID
+    driverStartTrip: function () {
+        //PUSH MESSAGE TO PASSENGER INCLUDE TRIP ID
 
-    	console.log("OS driverStartTrip");
+        console.log("OS driverStartTrip");
     },
 
-    driverEndTrip: function() {
-    	//PUSH MESSAGE TO PASSENGER INCLUDE TRIP ID
+    driverEndTrip: function () {
+        //PUSH MESSAGE TO PASSENGER INCLUDE TRIP ID
 
-    	console.log("OS driverEndTrip");
+        console.log("OS driverEndTrip");
     },
 
 
     //EVENTS
-    driverTripAlert: function(id) {
+    driverTripAlert: function (id) {
         driverride.tripid = id;
-        driverride.getTrip(1); 
+        driverride.getTrip(1);
     },
 
-    passengerRideAccepted: function() {
+    passengerRideAccepted: function () {
 
 
-    	riderrequest.rideAccepted();
-    	console.log("OS rideAccepted");
+        riderrequest.rideAccepted();
+        console.log("OS rideAccepted");
     },
 
-    passengerTripStarted: function() {
+    passengerTripStarted: function () {
 
 
-    	pendingride.passengerTripStarted();
-    	console.log("OS passengerTripStarted");
+        pendingride.passengerTripStarted();
+        console.log("OS passengerTripStarted");
     },
 
-    passengerTripEnded: function() {
+    passengerTripEnded: function () {
 
 
-    	pendingride.passengerTripEnded();
-    	console.log("OS passengerTripEnded");
+        pendingride.passengerTripEnded();
+        console.log("OS passengerTripEnded");
     }
 };
-
-
-
