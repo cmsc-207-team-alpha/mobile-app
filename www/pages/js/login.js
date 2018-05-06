@@ -14,7 +14,7 @@ var login = {
         }),
         success: function (result) {
             login.id = result["id"];
-            onesignal.setPlayerIdAndRedirect(result["id"], "passenger", "ride-request.html");
+            onesignal.setPlayerIdAndRedirect(result["id"], "passenger", "ride-request.html?id=" + login.id);
         },
         error: function(error){
             ons.notification.alert("Login failed!");

@@ -1,6 +1,6 @@
 var pendingride = {    
     tripid: 0,
-    vehicleid: 1,
+    vehicleid: 0,
 
     initialize: function() {
         pendingride.tripid = decodeURIComponent(window.location.search.match(/(\?|&)id\=([^&]*)/)[2]);
@@ -10,7 +10,7 @@ var pendingride = {
         document.addEventListener('deviceready', this.onDeviceReady, false);
     },
     onDeviceReady: function() {
-        pendingride.getVehicle();
+        pendingride.getTrip();
     },
 
     getTrip: function(){
@@ -20,8 +20,10 @@ var pendingride = {
             data: {
                 id: pendingride.tripid
             },
-            success: function (result) {    
-               pendingride.updateDetails(result);
+            success: function (result) { 
+               pendingride.vehicleid = result["vehicleid"];
+               map.drivervehicleid = pendingride.vehicleid;
+               pendingride.getVehicle();
             },
             error: function(error){
                 ons.notification.alert("Encountered error!");
@@ -38,7 +40,7 @@ var pendingride = {
             data: {
                 id: pendingride.vehicleid
             },
-            success: function (result) {    
+            success: function (result) {  
                pendingride.updateDetails(result);
             },
             error: function(error){

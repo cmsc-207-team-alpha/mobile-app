@@ -55,8 +55,10 @@
 
                 <hr color="green" size="1">
 
-                <button class="btn5 btn--right" onclick="starttrip.panicButton()">PANIC BUTTON</button>
-                <button class="btn btn--right" onclick="starttrip.endTrip()">END TRIP</button>
+                 <input type="button" id="start" class="btn4 btn--right" onclick="starttrip.panicButton()" value="PANIC BUTTON">
+
+        <!--         <button class="btn5 btn--right" onclick="starttrip.panicButton()">PANIC BUTTON</button>
+                <button class="btn btn--right" onclick="starttrip.endTrip()">END TRIP</button> -->
 
             </div>
         </ons-card>
@@ -70,12 +72,14 @@
     <script type="text/javascript" src="pages/js/config.js"></script>
     <script type="text/javascript" src="pages/js/start-trip.js"></script>
     <script type="text/javascript" src="pages/js/map.js"></script>
+    <script type="text/javascript" src="pages/js/onesignal.js"></script>
 
     <script async defer content="script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOnTzBRmXJM7XzmWAbE8jMWwRzAu9tEC8&callback=map.initMap">
     </script>
 
     <script type="text/javascript">
         starttrip.initialize();
+        onesignal.initialize();
     </script>
 </body>
 

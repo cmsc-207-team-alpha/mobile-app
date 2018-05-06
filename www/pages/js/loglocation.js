@@ -4,8 +4,8 @@ worker.onmessage = function(event) {
 	    type: "POST",
 	    url: config.apiUrl + "vehicle/setlocation.php",
 	    data: JSON.stringify({
-	        id: 1,
-		    locationlat: 15.58899 + event.data,
+	        id: driverride.vehicleid,
+		    locationlat: 12.58899 + event.data,
 		    locationlong: 16.975238 + event.data
 	    }),
 	    success: function (result) {

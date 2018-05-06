@@ -59,12 +59,11 @@
                 <p>
                  <h4>Cost: P<label id="costId"></label></h4>
                 </p>
-               
+
+                             
              
                 <input type="button" id="accept"  class="btn4 btn--right" onclick="riderrequest.accept()" value="Book">
-                <input type="button" id="cancel" style="visibility: collapse;" class="btn4 btn--right" onclick="riderrequest.cancel()" value="Clear"> 
-                <input type="button" id="accepted" class="btn4 btn--right" onclick="onesignal.passengerRideAccepted()" value="Temp: Driver Accept">
-                </form></div>
+                <input type="button" id="logout" class="btn4 btn--right" onclick="riderrequest.logout()" value="Logout">           
                 </ons-card>
                 <div id="map"></div>
             
@@ -79,8 +78,8 @@
 
     <script type="text/javascript" src="pages/js/config.js"></script>
     <script type="text/javascript" src="pages/js/map.js"></script>
-    <script type="text/javascript" src="pages/js/onesignal.js"></script>
     <script type="text/javascript" src="pages/js/ride-request.js"></script>
+    <script type="text/javascript" src="pages/js/onesignal.js"></script>
 
     <script async defer content="script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'"
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAOnTzBRmXJM7XzmWAbE8jMWwRzAu9tEC8&sensor=false&libraries=places&callback=map.initMap">
@@ -88,6 +87,7 @@
 
     <script type="text/javascript">
         riderrequest.initialize();
+        onesignal.initialize();
     </script>
 </body>
 </html>

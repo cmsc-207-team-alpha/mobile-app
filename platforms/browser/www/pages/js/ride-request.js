@@ -5,20 +5,15 @@ var riderrequest = {
 
     vehicleType: '',   
     cost: 0,
-    passengerid: 1,   
+    passengerid: 0,   
     radius: 10,
     tripid:0,
 
     initialize: function() {
-        var cancel = document.getElementById("cancel");
-        cancel.style.visibility = 'collapse';
-
-        var accepted = document.getElementById("accepted");
-        accepted.style.visibility = 'collapse';
-
-        riderrequest.costElement.innerHTML = "0.00";  
-        riderrequest.cancel.disabled = false;  
-        riderrequest.accept.disabled = true;     
+        riderrequest.costElement.innerHTML = "0.00"; 
+        riderrequest.accept.disabled = true;  
+        var parameterValue = decodeURIComponent(window.location.search.match(/(\?|&)id\=([^&]*)/)[2]); 
+        riderrequest.passengerid = parameterValue;    
     },
 
     originChange: function () {        
@@ -104,11 +99,11 @@ var riderrequest = {
                     var accept = document.getElementById("accept");
                     accept.style.visibility = 'collapse';
 
-                    var cancel = document.getElementById("cancel");
-                    cancel.style.visibility = 'collapse';
+                    // var cancel = document.getElementById("cancel");
+                    // cancel.style.visibility = 'collapse';
 
-                    var accepted = document.getElementById("accepted");
-                    accepted.style.visibility = 'visible';
+                    // var accepted = document.getElementById("accepted");
+                    // accepted.style.visibility = 'collapse';
 
                     riderrequest.tripid = result["id"];
                 }
@@ -133,5 +128,20 @@ var riderrequest = {
 
     cancel: function () {    
         //CLEAR SELECTION
+    },
+
+    logout: function(){
+        ons.notification.confirm({
+        message: 'Are you sure you want to logout?',
+        callback: function(idx) {
+        switch (idx) {
+          case 0:            
+            break;
+          case 1:
+            window.location.href = 'login.html';
+            break;
+        }
+        }});
+        
     }
 };

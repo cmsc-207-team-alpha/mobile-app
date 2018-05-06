@@ -10,6 +10,18 @@ var onesignal = {
             if (jsonData["payload"]["title"] === "Trip assigned!") {
                 onesignal.driverTripAlert(jsonData["payload"]["additionalData"]["tripid"]);
             }
+            //passenger
+            else if (jsonData["payload"]["title"] === "Trip accepted!") {
+                onesignal.passengerRideAccepted();
+            }
+            else if (jsonData["payload"]["title"] === "Trip started!") {
+                onesignal.passengerTripStarted();
+            }
+            else if (jsonData["payload"]["title"] === "Trip ended!") {
+                onesignal.passengerTripEnded();
+            }
+            //Trip assigned!
+            //tripid
         };
 
         window.plugins.OneSignal
@@ -19,6 +31,9 @@ var onesignal = {
     },
 
     setPlayerIdAndRedirect: function (id, role, page) {
+
+        //remove this
+        //window.location.href = page;
         window.plugins.OneSignal.getIds(function (user) {
             $.ajax({
                 type: "POST",
@@ -71,22 +86,17 @@ var onesignal = {
 
     passengerRideAccepted: function () {
 
-
         riderrequest.rideAccepted();
         console.log("OS rideAccepted");
     },
 
     passengerTripStarted: function () {
-
-
-        pendingride.passengerTripStarted();
+        pendingride.startTrip();
         console.log("OS passengerTripStarted");
     },
 
     passengerTripEnded: function () {
-
-
-        pendingride.passengerTripEnded();
+        starttrip.endTrip()
         console.log("OS passengerTripEnded");
     }
 };

@@ -13,9 +13,8 @@ var login = {
             password: login.password.value
         }),
         success: function (result) {
-            //API to return ID
-            //login.id = result["id"];
-            window.location.href = "ride-request.html";            
+            login.id = result["id"];
+            onesignal.setPlayerIdAndRedirect(result["id"], "passenger", "ride-request.html?id=" + login.id);
         },
         error: function(error){
             ons.notification.alert("Login failed!");
@@ -35,7 +34,7 @@ var login = {
         }),
         success: function (result) {
             login.id = result["id"];
-            window.location.href = "driver-ride-request.html?id=" + login.id;            
+            onesignal.setPlayerIdAndRedirect(result["id"], "driver", "driver-ride-request.html?id=" + login.id);
         },
         error: function(error){
             ons.notification.alert("Login failed!");

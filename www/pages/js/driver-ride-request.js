@@ -107,7 +107,7 @@ var driverride = {
                     map.vehicleid = driverride.vehicleid;
                     driverride.plateNo = result[0]["plateno"];
                     driverride.carDetails =result[0]["make"] + " : " + result[0]["model"];
-                    driverride.updateVehicleStatus();
+                    driverride.updateVehicleStatus(1);
                     driverride.showDriverDetails();
                 }
                 else
@@ -167,17 +167,21 @@ var driverride = {
             });   
     },
 
-    updateVehicleStatus: function(){
+    updateVehicleStatus: function(value){
         $.ajax({
             type: "POST",
             url: config.apiUrl + "vehicle/updatestatus.php",
             data: JSON.stringify({
                 id: driverride.vehicleid,
-                available: 1,
-                active: 1
+                available: value,
+                active: value
             }),
             success: function (result) {
                 console.log(result["message"]);
+
+                if(value == 0){                    
+                    window.location.href = 'login.html';
+                }
             },
             error: function(error){
                 ons.notification.alert("Encountered error!");
@@ -272,5 +276,20 @@ var driverride = {
             driverride.getTrip(1); 
         });
          
+    },
+
+    logout: function(){
+        ons.notification.confirm({
+        message: 'Are you sure you want to logout?',
+        callback: function(idx) {
+        switch (idx) {
+          case 0:            
+            break;
+          case 1:
+            driverride.updateVehicleStatus(0);
+            break;
+        }
+        }});
+        
     }
 };

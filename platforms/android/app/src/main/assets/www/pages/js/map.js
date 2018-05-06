@@ -9,6 +9,7 @@ var map = {
     distance: 0,
     time: 0,
     vehicleid: 0,
+    drivervehicleid: 0,
 
     initMap: function () {
         mapDiv = new google.maps.Map(document.getElementById('map'), {
@@ -199,6 +200,16 @@ var map = {
         //WHAT IS NEEDED TO GET THIS?
         return {dist: 3, time: 4};
     },
+
+    plotLocation: function(pos) {  
+        console.log(pos.lat);
+        console.log(pos.lng);
+        if(marker)
+        {
+            marker.setPosition(pos);
+            mapDiv.setCenter(pos);
+        }
+    }
 };
 
 
@@ -208,13 +219,16 @@ var map = {
 //   This method accepts a `Position` object, which contains
 //   the current GPS coordinates
 function onSuccess(position) {
-    var pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude
-    };
+    if(map.drivervehicleid === 0)
+    {
+        var pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+        };
+        marker.setPosition(pos);
+    }
 
-    marker.setPosition(pos);
-    mapDiv.setCenter(pos);
+    //mapDiv.setCenter(pos);
 
     if(map.vehicleid !== 0){
         $.ajax({
@@ -234,6 +248,26 @@ function onSuccess(position) {
             contentType: "application/json; charset=utf-8",
             dataType: "json"
         }); 
+    }
+    else if (map.drivervehicleid !== 0){
+        $.ajax({
+            type: "GET",
+            url: config.apiUrl + "vehicle/get.php",
+            data: {
+                id: map.drivervehicleid
+            },
+            success: function (result) {     
+                var pos = {
+                    lat: result['locationlat'],
+                    lng: result['locationlong']
+                };
+                marker.setPosition(pos);
+            },
+            error: function(error){
+            },
+            contentType: "application/json; charset=utf-8",
+            dataType: "json"
+            });   
     }
     console.log("Location update");
 }
