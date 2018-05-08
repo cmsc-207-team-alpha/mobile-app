@@ -12,7 +12,7 @@ var register = {
         //UPDATETHIS
         $.ajax({
           type: "POST",
-          url: config.apiUrl + "driver/register.php",
+          url: config.apiUrl + "passenger/register.php",
           data: JSON.stringify({
             firstname: fname,
             lastname: lname,
