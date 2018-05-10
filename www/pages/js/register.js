@@ -22,7 +22,7 @@ var register = {
       }),
       success: function (result) {
         ons.notification.alert({
-          message: 'Registration successful! You will be redirected to login page.',
+          message: 'Registration successful! We have sent a message with the activation link to your email address. In order to complete the registration process, please click the activation link.',
           callback: function (answer) {
             window.location.href = "login.html";
           }
