@@ -17,7 +17,7 @@ var login = {
             onesignal.setPlayerIdAndRedirect(result["id"], "passenger", "ride-request.html?id=" + login.id);
         },
         error: function(error){
-            ons.notification.alert("Login failed!");
+            ons.notification.alert("Login failed!");             
         },
         contentType: "application/json; charset=utf-8",
         dataType: "json"

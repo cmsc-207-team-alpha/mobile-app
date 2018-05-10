@@ -143,5 +143,9 @@ var riderrequest = {
         }
         }});
         
+    },
+
+    getHistory: function(){
+        window.location.href = "trip-history.html?id=" + riderrequest.passengerid; 
     }
 };
