@@ -31,6 +31,7 @@ var register = {
       error: function (error) {
         var nameregex = /[\d\W]/;
         var emailregex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var mobileregex = /^639/;
         if (fname.value == "" || fname.value.length < 2 || nameregex.test(fname.value) == true) {
           $(fname).focus();
           if (fname.value == "") {
@@ -109,29 +110,45 @@ var register = {
             $(cpwerror).show();
           }
         }
-        else if (mobile.value == "" || mobile.value.length < 11) {
+        else if (mobile.value == "" || mobileregex.test(mobile.value) == false || mobile.value.length < 12 || mobile.value.length > 12) {
           $(cpwerror).hide();
           $(mobile).focus();
           if (mobile.value == "") {
             $(mobile).attr("placeholder", "Please input mobile number.").placeholder();
           }
-          if (mobile.value.length < 11) {
-            $(merror).text("Mobile number should not have less than 11 characters.");
+          if (mobileregex.test(mobile.value) == false) {
+            $(merror).text("Mobile number format: 639101234567.");
+            $(merror).show();
+          }
+          else if (mobile.value.length < 12) {
+            $(merror).text("Mobile number should not have less than 12 digits.");
+            $(merror).show();
+          }
+          if (mobile.value.length > 12) {
+            $(merror).text("Mobile number should not have more than 12 digits.");
             $(merror).show();
           }
         }
-        else if (emobile.value == "" || emobile.value.length < 11 || emobile.value == mobile.value) {
+        else if (emobile.value == "" || mobileregex.test(emobile.value) == false || emobile.value.length < 12 || emobile.value.length > 12 || mobile.value == emobile.value) {
           $(merror).hide();
           $(emobile).focus();
           if (emobile.value == "") {
             $(emobile).attr("placeholder", "Please input emergency mobile number.").placeholder();
           }
-          if (emobile.value.length < 11) {
-            $(emerror).text("Emergency contact number should not have less than 11 characters.");
+          if (mobileregex.test(emobile.value) == false) {
+            $(emerror).text("Mobile number format: 639101234567.");
             $(emerror).show();
           }
-          if (emobile.value == mobile.value) {
-            $(emerror).text("Emergency contact number should not be same with mobile number.");
+          else if (emobile.value.length < 12) {
+            $(emerror).text("Emergency mobile number should not have less than 12 digits.");
+            $(emerror).show();
+          }
+          if (emobile.value.length > 12) {
+            $(emerror).text("Emergency mobile number should not have more than 12 digits.");
+            $(emerror).show();
+          }
+          if (mobile.value == emobile.value) {
+            $(emerror).text("Emergency mobile number should not be same with mobile number.");
             $(emerror).show();
           }
         }
